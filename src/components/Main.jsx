@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { AiFillRightCircle } from "react-icons/ai";
+import { AiFillRightCircle, AiOutlineLoading } from "react-icons/ai";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import axios from "axios";
 import HeaderImg from "../assets/images/pattern-bg.png";
@@ -16,7 +16,7 @@ const Main = () => {
   const myIP = process.env.REACT_APP_API_IP;
   const [userInput, setUserInput] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     ip: "",
     country: "",
@@ -139,7 +139,9 @@ const Main = () => {
           </div>
         </>
       ) : (
-        <h1>Loading</h1>
+        <h1 className="flex justify-center mt-[45vh] text-6xl text-purple-700  ">
+          <AiOutlineLoading className="animate-spin" />
+        </h1>
       )}
     </>
   );

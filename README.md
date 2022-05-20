@@ -1,3 +1,7 @@
+# Ip Address Tracker
+
+This app was develped using ReactJS, Google Maps platform, Ip Geolocation API and TailwindCSS
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
