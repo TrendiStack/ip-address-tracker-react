@@ -62,6 +62,8 @@ const Main = () => {
             region: res.data.location.region,
             timezone: res.data.location.timezone,
             isp: res.data.isp,
+            lat: res.data.location.lat,
+            lng: res.data.location.lng,
           });
         });
     } catch (error) {
