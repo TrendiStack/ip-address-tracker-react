@@ -87,7 +87,7 @@ const Main = () => {
               src={HeaderImg}
               alt=""
             />
-            <h1 className="text-white text-2xl py-5 ">IP Address Track</h1>
+            <h1 className="text-white text-2xl py-5 ">IP Address Tracker</h1>
             <form onSubmit={handleSubmit} className="flex justify-center">
               <div className="bg-white w-[80%] py-2 rounded-2xl flex lg:w-[40%]">
                 <input
