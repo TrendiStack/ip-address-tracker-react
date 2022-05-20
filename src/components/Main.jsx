@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillRightCircle, AiOutlineLoading } from "react-icons/ai";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import axios from "axios";
@@ -11,12 +11,25 @@ const Main = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
-  const center = useMemo(() => ({ lat, lng }), [lat, lng]);
+  //   const center = useMemo(
+  //     () => ({
+  //       lat: lat.toString().slice(0, 6),
+  //       lng: lng.toString().slice(0, 6),
+  //     }),
+  //     [lat, lng]
+  //   );
+  //   const center = {
+  //     lat: lat.toString().slice(0, 6),
+  //     lng: lng.toString().slice(0, 6),
+  //   };
+
+  const newLat = parseFloat(lat);
+  const newLng = parseFloat(lng);
   const apiKey = process.env.REACT_APP_API_KEY;
   const myIP = process.env.REACT_APP_API_IP;
   const [userInput, setUserInput] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     ip: "",
     country: "",
@@ -28,20 +41,20 @@ const Main = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        await axios
-          .get(
-            `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${myIP}`
-          )
-          .then((res) => {
-            setData({
-              ip: res.data.ip,
-              country: res.data.location.country,
-              region: res.data.location.region,
-              timezone: res.data.location.timezone,
-              isp: res.data.isp,
-            });
-          });
+        // setLoading(true);
+        // await axios
+        //   .get(
+        //     `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${myIP}`
+        //   )
+        //   .then((res) => {
+        //     setData({
+        //       ip: res.data.ip,
+        //       country: res.data.location.country,
+        //       region: res.data.location.region,
+        //       timezone: res.data.location.timezone,
+        //       isp: res.data.isp,
+        //     });
+        //   });
       } catch (error) {
         setError(error);
       }
@@ -124,14 +137,14 @@ const Main = () => {
             </div>
           </div>
           <div>
-            {isLoaded ? (
+            {newLat ? (
               <GoogleMap
                 zoom={10}
-                center={center}
+                center={{ lat: newLat, lng: newLng }}
                 mapContainerClassName="map-container"
                 options={{ disableDefaultUI: true }}
               >
-                <Marker position={center} className="fi" />
+                <Marker position={{ lat: newLat, lng: newLng }} />
               </GoogleMap>
             ) : (
               <h1 className="flex justify-center mt-[45vh] text-6xl text-purple-700  ">
