@@ -3,16 +3,11 @@ import { AiFillRightCircle, AiOutlineLoading } from "react-icons/ai";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import axios from "axios";
 import HeaderImg from "../assets/images/pattern-bg.png";
-import useGeolocation from "../utils/useGeolocation";
 
 const Main = () => {
-  const location = useGeolocation();
-  const { lat, lng } = location;
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
-  const newLat = parseFloat(lat);
-  const newLng = parseFloat(lng);
   const apiKey = process.env.REACT_APP_API_KEY;
   const myIP = process.env.REACT_APP_API_IP;
   const [userInput, setUserInput] = useState(null);
@@ -24,16 +19,16 @@ const Main = () => {
     region: "",
     timezone: "",
     isp: "",
+    lat: "",
+    lng: "",
   });
-  const { ip, country, region, timezone, isp } = data;
+  const { ip, country, region, timezone, isp, lat, lng } = data;
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         await axios
-          .get(
-            `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=8.8.8.8`
-          )
+          .get(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}`)
           .then((res) => {
             setData({
               ip: res.data.ip,
@@ -41,6 +36,8 @@ const Main = () => {
               region: res.data.location.region,
               timezone: res.data.location.timezone,
               isp: res.data.isp,
+              lat: res.data.location.lat,
+              lng: res.data.location.lng,
             });
           });
       } catch (error) {
@@ -92,7 +89,7 @@ const Main = () => {
             <form onSubmit={handleSubmit} className="flex justify-center">
               <div className="bg-white w-[80%] py-2 rounded-2xl flex lg:w-[40%]">
                 <input
-                  className="bg-transparent w-[90%] text-lg indent-2  "
+                  className="bg-transparent md:ml-[1rem] w-[90%] text-lg indent-2  "
                   type="text"
                   placeholder="Enter Ip Address"
                   onChange={handleSearch}
@@ -126,14 +123,14 @@ const Main = () => {
             </div>
           </div>
           <div>
-            {newLat ? (
+            {isLoaded ? (
               <GoogleMap
                 zoom={10}
-                center={{ lat: newLat, lng: newLng }}
+                center={{ lat: lat, lng: lng }}
                 mapContainerClassName="map-container"
                 options={{ disableDefaultUI: true }}
               >
-                <Marker position={{ lat: newLat, lng: newLng }} />
+                <Marker position={{ lat: lat, lng: lng }} />
               </GoogleMap>
             ) : (
               <h1 className="flex justify-center mt-[45vh] text-6xl text-purple-700  ">
