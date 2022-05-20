@@ -44,6 +44,7 @@ const Main = () => {
             });
           });
       } catch (error) {
+        setLoading(false);
         setError(error);
       }
     };
@@ -67,7 +68,7 @@ const Main = () => {
           });
         });
     } catch (error) {
-      console.log(error);
+      setLoading(false);
       setError(error);
     }
   };
