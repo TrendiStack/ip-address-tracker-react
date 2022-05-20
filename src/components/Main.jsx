@@ -134,7 +134,9 @@ const Main = () => {
                 <Marker position={center} className="fi" />
               </GoogleMap>
             ) : (
-              <div> Loading...</div>
+              <h1 className="flex justify-center mt-[45vh] text-6xl text-purple-700  ">
+                <AiOutlineLoading className="animate-spin" />
+              </h1>
             )}
           </div>
         </>
