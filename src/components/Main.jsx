@@ -11,25 +11,13 @@ const Main = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
-  //   const center = useMemo(
-  //     () => ({
-  //       lat: lat.toString().slice(0, 6),
-  //       lng: lng.toString().slice(0, 6),
-  //     }),
-  //     [lat, lng]
-  //   );
-  //   const center = {
-  //     lat: lat.toString().slice(0, 6),
-  //     lng: lng.toString().slice(0, 6),
-  //   };
-
   const newLat = parseFloat(lat);
   const newLng = parseFloat(lng);
   const apiKey = process.env.REACT_APP_API_KEY;
   const myIP = process.env.REACT_APP_API_IP;
   const [userInput, setUserInput] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     ip: "",
     country: "",
@@ -41,20 +29,20 @@ const Main = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // setLoading(true);
-        // await axios
-        //   .get(
-        //     `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${myIP}`
-        //   )
-        //   .then((res) => {
-        //     setData({
-        //       ip: res.data.ip,
-        //       country: res.data.location.country,
-        //       region: res.data.location.region,
-        //       timezone: res.data.location.timezone,
-        //       isp: res.data.isp,
-        //     });
-        //   });
+        setLoading(true);
+        await axios
+          .get(
+            `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${myIP}`
+          )
+          .then((res) => {
+            setData({
+              ip: res.data.ip,
+              country: res.data.location.country,
+              region: res.data.location.region,
+              timezone: res.data.location.timezone,
+              isp: res.data.isp,
+            });
+          });
       } catch (error) {
         setError(error);
       }
